@@ -1,0 +1,48 @@
+﻿@model ML.Cliente
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Formulario de crédito</h1>
+<hr />
+<div>
+    @using(Html.BeginForm("Form", "Credito", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(model => model.CodCliente)
+        <div class="row">
+            <div class="col col-3">
+                <label>Tipo de crédito</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-credit-card"></i></span>
+                    @Html.DropDownListFor(model => model.Credito.TipoCredito.IdTipoCredito, new SelectList(Model.Credito.TipoCredito.Tipos, "IdTipoCredito", "Nombre"), "Selecciona un tipo", new { @class="form-control"})
+                </div>
+            </div>
+            <div class="col col-3">
+                <label>Monto</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">$</span>
+                    @Html.TextBoxFor(model => model.Credito.Monto, new { @class = "form-control", @placeholder = "0.00" })
+                </div>
+            </div>
+            <div class="col col-3">
+                <label>Fecha de vencimiento</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-calendar-days"></i></span>
+                    @Html.TextBoxFor(model => model.Credito.FechaVencimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", @type="date" })
+                </div>
+            </div>
+            <div class="col col-3">
+                <br />
+                <div class="form-check form-switch">
+                    @Html.CheckBoxFor(model => model.Credito.Activo, new { @class = "form-check-input" })
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Activo</label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a class="btn btn-danger" href="@Url.Action("GetByCodCliente", "Credito", new {codCliente = Model.CodCliente})">Volver</a>
+            <button class="btn btn-success" type="submit">Guardar</button>
+        </div>
+    }
+</div>

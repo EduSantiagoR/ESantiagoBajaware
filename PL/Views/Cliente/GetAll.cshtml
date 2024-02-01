@@ -1,0 +1,56 @@
+﻿@model ML.Cliente
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Clientes</h1>
+<hr />
+<div>
+    <p>Puedes agregar un nuevo cliente.</p>
+    <a class="btn btn-success" href="@Url.Action("Form", "Cliente")">Nuevo cliente</a>
+</div>
+<hr />
+<div class="container">
+    @if(Model.Clientes != null)
+    {
+        if(Model.Clientes.Count > 0)
+        {
+            <table class="table table-dark table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>Créditos</th>
+                        <th>Editar</th>
+                        <th>Nombre</th>
+                        <th>Apellido paterno</th>
+                        <th>Apellido materno</th>
+                        <th>Fecha de nacimiento</th>
+                        <th>Estado civil</th>
+                        <th>Nacionalidad</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(ML.Cliente cliente in Model.Clientes)
+                    {
+                        <tr>
+                            <td><a class="btn btn-outline-info" href="@Url.Action("GetByCodCliente", "Credito", new { codCliente = cliente.CodCliente })"><i class="fa-solid fa-hand-holding-dollar"></i></a></td>
+                            <td><a class="btn btn-outline-warning" href="@Url.Action("Form", "Cliente", new { codCliente = cliente.CodCliente })"><i class="fa-solid fa-user-pen"></i></a></td>
+                            <td>@cliente.Nombre</td>
+                            <td>@cliente.ApellidoPaterno</td>
+                            <td>@cliente.ApellidoMaterno</td>
+                            <td>@cliente.FechaNacimiento.ToString("dd-MM-yyyy")</td>
+                            <td>@cliente.EstadoCivil.Nombre</td>
+                            <td>@cliente.Nacionalidad.Nombre</td>
+                            <td><a class="btn btn-outline-danger" onclick="return confirm('¿Seguro que quieres eliminar?')"><i class="fa-solid fa-circle-xmark"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div role="alert" class="alert alert-warning">No hay clientes registrados</div>
+        }
+    }
+</div>

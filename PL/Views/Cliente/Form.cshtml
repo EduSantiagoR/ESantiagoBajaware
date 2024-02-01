@@ -1,0 +1,64 @@
+﻿@model ML.Cliente
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Formulario</h1>
+<hr />
+<div>
+    @using (Html.BeginForm("Form", "Cliente", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(model => model.CodCliente)
+        <div class="row">
+            <div class="col col-3">
+                <label>Nombre</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @placeholder = "Nombre" })
+                </div>
+            </div>
+            <div class="col col-3">
+                <label>Apellido paterno</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                    @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @placeholder = "Apellido paterno" })
+                </div>
+            </div>
+            <div class="col col-3">
+                <label>Apellido materno</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                    @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @placeholder = "Apellido materno" })
+                </div>
+            </div>
+            <div class="col col-3">
+                <label>Fecha de nacimiento</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-cake-candles"></i></span>
+                    @Html.TextBoxFor(model => model.FechaNacimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", @type="date" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-3">
+                <label>Estado civil</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                    @Html.DropDownListFor(model => model.EstadoCivil.IdEstadoCivil, new SelectList(Model.EstadoCivil.Estados, "IdEstadoCivil", "Nombre"), "Selecciona una opción", new {@class="form-control"})
+                </div>
+            </div>
+            <div class="col col-3">
+                <label>Nacionalidad</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-flag"></i></span>
+                    @Html.DropDownListFor(model => model.Nacionalidad.IdNacionalidad, new SelectList(Model.Nacionalidad.Nacionalidades, "IdNacionalidad", "Nombre"), "Selecciona una opción", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div>
+            <a class="btn btn-danger" href="@Url.Action("GetAll", "Cliente")">Volver</a>
+            <button class="btn btn-success" type="submit">Guardar</button>
+        </div>
+    }
+</div>

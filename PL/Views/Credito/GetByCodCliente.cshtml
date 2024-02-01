@@ -1,0 +1,69 @@
+﻿@model ML.Cliente
+@{
+    ViewData["Title"] = "GetByCodCliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Creditos registrados</h1>
+<hr />
+<div class="row">
+    <div class="col">
+        <p>Registra un nuevo crédito</p>
+        <a class="btn btn-success" href="@Url.Action("Form", "Credito", new { codCliente = Model.CodCliente})">Nuevo crédito</a>
+        <a class="btn btn-danger" href="@Url.Action("GetAll", "Cliente")">Volver</a>
+    </div>
+</div>
+<hr />
+<div>
+    @if(Model.Credito.Creditos != null)
+    {
+        <h4>Cliente: @Model.Nombre @Model.ApellidoPaterno @Model.ApellidoMaterno</h4>
+        if(Model.Credito.Creditos.Count > 0)
+        {
+            <table class="table table-dark table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>CodCredito</th>
+                        <th>Activo</th>
+                        <th>Tipo</th>
+                        <th>Inicio</th>
+                        <th>Vencimiento</th>
+                        <th>Monto</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(ML.Credito credito in Model.Credito.Creditos)
+                    {
+                        <tr>
+                            <td>@credito.CodCredito</td>
+                            <td>
+                                @if (credito.Activo)
+                                {
+                                    <i class="fa-solid fa-circle-check" style="color: #008000;"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-circle-xmark" style="color: #ff0000;"></i>
+                                }
+                            </td>
+                            <td>@credito.TipoCredito.Nombre</td>
+                            <td>@credito.FechaInicio.ToShortDateString()</td>
+                            <td>@credito.FechaVencimiento.ToShortDateString()</td>
+                            <td>$ @credito.Monto</td>
+                            <td><a class="btn btn-outline-danger" href="@Url.Action("Delete", "Credito", new { codCliente = Model.CodCliente, codCredito = credito.CodCredito})"><i class="fa-solid fa-ban"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div role="alert" class="alert alert-warning">No tienes creditos registrados.</div>
+        }
+    }
+    else
+    {
+        <div role="alert" class="alert alert-danger">No se ha podido consultar los creditos.</div>
+    }
+</div>
